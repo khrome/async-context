@@ -1,5 +1,5 @@
 {
-  "name": "async-context",
+  "name": "async-object-context",
   "version": "0.0.1",
   "main": "async-context.js",
   "scripts": {
@@ -7,9 +7,8 @@
   },
   "devDependencies": {
     "chai": "^4.3.6",
-    "mocha": "^9.2.1"
-  },
-  "dependencies": {
+    "mocha": "^9.2.1",
     "kitchen-sync": "0.0.1"
-  }
+  },
+  "dependencies": {}
 }

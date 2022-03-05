@@ -1,5 +1,5 @@
-async-contexts
-==============
+async-object-context
+====================
 
 There are cases where you want a chainable context, but you also **don't** want to choose between promises or callbacks, you don't want a broken call stack, and you don't want to have an extra function on the chain. That's where this library comes in.
 

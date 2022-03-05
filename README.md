@@ -14,24 +14,23 @@ let context = {
 }
 const ac = require('async-context');
 let chain = new ac.Chain(context);
-// chain now proxies calls into context, but first sets off a race. if a 0timeout calls before we receive a callback and context now has a reference to the internal promise at chain.complete
-// work is executed sequentially, via queue
+// chain now proxies calls into context, work is sequential, by queue
 chain.fn({}).fn({}).fn({}).fn({}, (err, value)=>{
     //value === 4
 });
 
-chain.fn({}).complete.then(()=>{
+chain.fn({}).promise.then(()=>{
 
 });
 
 let asyncContext = async ()=>{
-    return await chain.fn({}).complete
+    return await chain.fn({}).promise
 }
 
 try{
-    let value = await chain.fn().fn().fn().complete;
+    let value = await chain.fn({}).fn({}).fn({}).promise;
 }catch(ex){
-
+    //handle the exception
 }
 
 ```

@@ -10,27 +10,34 @@ Usage
 ```javascript
 let count = 0;
 let context = {
-    fn : ()=>{ count ++ }
+    fn : (options, cb)=>{
+        count++;
+        setTimeout(()=>{
+            cb(null, count)
+        })
+    }
 }
 const ac = require('async-context');
-let chain = new ac.Chain(context);
+let chain = ac.Context.wrap(context);
 // chain now proxies calls into context, work is sequential, by queue
 chain.fn({}).fn({}).fn({}).fn({}, (err, value)=>{
     //value === 4
 });
 
-chain.fn({}).promise.then(()=>{
-
+chain.fn({}).promise.then((value)=>{
+    //value === 1
 });
 
-let asyncContext = async ()=>{
-    return await chain.fn({}).promise
-}
-
-try{
-    let value = await chain.fn({}).fn({}).fn({}).promise;
-}catch(ex){
-    //handle the exception
-}
+(async ()=>{
+    try{
+        return await chain.fn({}).fn({}).fn({}).promise;
+    }catch(ex){
+        //handle the exception
+    }
+})().then((result)=>{
+    //value === 3
+}).catch(()=>{
+    //another chance to catch the same exception, if we didn't in the lower scope
+});
 
 ```
